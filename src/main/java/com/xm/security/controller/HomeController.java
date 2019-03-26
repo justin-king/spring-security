@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 
-	@RequestMapping("/index.action")
+	@RequestMapping({"/","/index.action"})
 	public String index(){
 		return "index";
 	}
@@ -15,6 +15,11 @@ public class HomeController {
 	public String failure(){
 		System.out.println("failure");
 		return "failure";
+	}
+	
+	@RequestMapping("/success.action")
+	public String success(){
+		return "success";
 	}
 	
 }

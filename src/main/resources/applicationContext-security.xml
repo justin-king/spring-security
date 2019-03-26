@@ -11,19 +11,21 @@
 	<!-- 过滤不要权限加载的地址 -->
 	<http pattern="/static/**" security="none"/>
 	<http pattern="/loggedout.jsp" security="none"/>
+	<http pattern="/timeout.jsp" security="none"></http>
 
 	<!-- 配置拦截地址及访问权限 -->
 	<http>
 		<intercept-url pattern="/**" access="hasAuthority('supervisor')"/>
 		<!-- 添加系统登陆页面 -->
-		<form-login authentication-success-forward-url="/index.action" authentication-failure-forward-url="/failure.action"/>
+		<form-login authentication-success-forward-url="/success.action" authentication-failure-forward-url="/failure.action"/>
 		<!-- 退出时页面 -->
 		<logout logout-success-url="/loggedout.jsp" delete-cookies="JSESSIONID"/>
 		<!-- 记住登陆账号密码 -->
 		<remember-me />
 		<!-- 过期时跳转页面 -->
+		<!-- 只缓存一个用户，切换用户时挤掉前一个用户信息  前一个用户出现timeout界面-->
+		<!-- 注释即可无限登录  不限制服务器及单台服务器登陆个数 -->
 		<session-management invalid-session-url="/timeout.jsp">
-			<!-- 只缓存一个用户，切换用户时替换掉前一个用户信息 -->
 			<concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
 		</session-management>
 	</http>
