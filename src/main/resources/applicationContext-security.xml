@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<!-- 支持注解  Spring Security中定义了四个支持使用表达式的注解，分别是@PreAuthorize、@PostAuthorize、@PreFilter和@PostFilter。 默认disabled -->
+	<global-method-security pre-post-annotations="enabled" />
+
+	<!-- 过滤不要权限加载的地址 -->
+	<http pattern="/static/**" security="none"/>
+	<http pattern="/loggedout.jsp" security="none"/>
+
+	<!-- 配置拦截地址及访问权限 -->
+	<http>
+		<intercept-url pattern="/**" access="hasAuthority('supervisor')"/>
+		<!-- 添加系统登陆页面 -->
+		<form-login authentication-success-forward-url="/index.action" authentication-failure-forward-url="/failure.action"/>
+		<!-- 退出时页面 -->
+		<logout logout-success-url="/loggedout.jsp" delete-cookies="JSESSIONID"/>
+		<!-- 记住登陆账号密码 -->
+		<remember-me />
+		<!-- 过期时跳转页面 -->
+		<session-management invalid-session-url="/timeout.jsp">
+			<!-- 只缓存一个用户，切换用户时替换掉前一个用户信息 -->
+			<concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
+		</session-management>
+	</http>
+
+
+	<!--
+	Usernames/Passwords are
+		rod/koala
+		dianne/emu
+		scott/wombat
+		peter/opal
+	-->
+	<!-- 密码加密算法 -->
+	<beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+	<!-- 设置用户账号密码 -->
+	<authentication-manager>
+		<authentication-provider>
+			<password-encoder ref="encoder"/>
+			<user-service>
+				<user name="rod" password="$2a$10$75pBjapg4Nl8Pzd.3JRnUe7PDJmk9qBGwNEJDAlA3V.dEJxcDKn5O" authorities="supervisor, user, teller" />
+				<user name="dianne" password="$2a$04$bCMEyxrdF/7sgfUiUJ6Ose2vh9DAMaVBldS1Bw2fhi1jgutZrr9zm" authorities="user,teller" />
+				<user name="scott" password="$2a$06$eChwvzAu3TSexnC3ynw4LOSw1qiEbtNItNeYv5uI40w1i3paoSfLu" authorities="user" />
+				<user name="peter" password="$2a$04$8.H8bCMROLF4CIgd7IpeQ.tcBXLP5w8iplO0n.kCIkISwrIgX28Ii" authorities="user" />
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+</beans:beans>
