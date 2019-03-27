@@ -4,10 +4,11 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	id="WebApp_ID" version="3.1">
   
-  <!-- 加载spring-security配置文件 -->
+  <!-- 加载配置文件 只能对应一个value -->
   <context-param>
   		<param-name>contextConfigLocation</param-name>
-  		<param-value>classpath:applicationContext-security.xml</param-value>
+  		<!-- 加载spring-security配置文件 --><!-- 加载数据源配置文件 -->
+  		<param-value>classpath:applicationContext-security.xml,spring-datasource-bean.xml</param-value>
   </context-param>
   
   <!-- 启用监听  监听Security -->
