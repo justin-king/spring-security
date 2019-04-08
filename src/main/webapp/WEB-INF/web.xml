@@ -8,7 +8,7 @@
   <context-param>
   		<param-name>contextConfigLocation</param-name>
   		<!-- 加载spring-security配置文件 --><!-- 加载数据源配置文件 -->
-  		<param-value>classpath:applicationContext-security.xml,spring-datasource-bean.xml</param-value>
+  		<param-value>classpath:spring-datasource-bean.xml,classpath:applicationContext-security.xml</param-value>
   </context-param>
   
   <!-- 启用监听  监听Security -->

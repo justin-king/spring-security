@@ -44,7 +44,9 @@
 			<property name="jpaVendorAdapter" ref="jpaVendorAdapter"></property>
 			<!-- 映射实体位置 -->
 			<property name="packagesToScan">
-				<list>com.xm.security.**.entity</list>
+				<list>
+					<value>com.xm.security.**.entity</value>
+				</list>
 			</property>
 			
 			<!-- JPA特性 -->
